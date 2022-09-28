@@ -26,4 +26,4 @@ const CharactersModel = mongoose.model(
     "characters"
 )
 
-export default CharactersModel;
+module.exports = { CharactersModel };
