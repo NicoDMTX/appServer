@@ -2,9 +2,13 @@ require("dotenv").config();
 
 const mongoose = require('mongoose');
 
-const CharactersModel = mongoose.model(
-    "characters",
+const MonstersModel = mongoose.model(
+    'monsters',
     {
+        name: {
+            type: String,
+            required: true
+        },
         level: {
             type: Number,
             required: true
@@ -13,15 +17,11 @@ const CharactersModel = mongoose.model(
             type: Number,
             required: true
         },
-        job: {
-            type: String,
-            required: true,
-        },
         date: {
             type: Date,
             default: Date.now()
         }
-    },
+    }
 )
 
-module.exports = { CharactersModel };
+module.exports = { MonstersModel };

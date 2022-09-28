@@ -6,10 +6,12 @@ const express = require('express')
 const app = express();
 const PORT = process.env.PORT;
 const charactersRoutes = require('./routes/charactersController');
+const monstersRoutes = require('./routes/monstersController');
 const cors = require('cors');
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use('/monsters', monstersRoutes)
 app.use('/characters', charactersRoutes);
 
 app.listen(5000, () => {
