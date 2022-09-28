@@ -18,6 +18,10 @@ const CharactersModel = mongoose.model(
             type: Number,
             required: true
         },
+        job: {
+            type: String,
+            required: true,
+        },
         date: {
             type: Date,
             default: Date.now()

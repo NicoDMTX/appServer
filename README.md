@@ -5,3 +5,4 @@
 - mongoose
 - nodemon
 - dotenv
+- bodyParser
