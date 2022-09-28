@@ -6,3 +6,4 @@
 - nodemon
 - dotenv
 - bodyParser
+- cors
