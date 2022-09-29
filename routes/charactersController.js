@@ -4,72 +4,88 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 const { CharactersModel } = require('../models/charactersModel')
 
-router.get('/', (req, res) => {
-    CharactersModel.find((err, docs) => {
-        if (!err) {
-            return res.send(docs)
-        }
-        return console.log('Error to get data ' + err)
-    })
-})
+class CharacterController {
+    constructor(item, url) {
+        this.item = item,
+        this.url = url
+    }
 
-/**
- * post 
- */
-router.post('/', (req, res) => {
-    const newCharacter = new CharactersModel({
-        name: req.body.name,
-        level: req.body.level,
-        life: req.body.life,
-        job: req.body.job
-    })
-
-    newCharacter.save((err, docs) => {
-        if (!err) {
-            return res.send(docs);
-        }
-
-        return console.log('Error creating data :' + err)
-    })
-})
-
-router.put("/:id", (req, res) => {
-    if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).send('ID unknown : ' + req.params)
+    getItem(item, url) {
+        router.get(url, (req, res) => {
+            item.find((err, docs) => {
+                if (!err) {
+                    return res.send(docs)
+                }
+                return console.log('Error to get data ' + err)
+            })
+        })
     }
     
-    const updatedCharacter = {
-        name: req.body.name,
+    createItem(item, url) {
+        router.post(url, (req, res) => {
+            const newCharacter = new item({
+                level: req.body.level,
+                life: req.body.life,
+                job: req.body.job
+            })
+
+            newCharacter.save((err, docs) => {
+                if (!err) {
+                    return res.send(docs);
+                }
+
+                return console.log('Error creating data :' + err)
+            })
+        })
     }
 
-    CharactersModel.findOneAndUpdate(
-        req.params.id,
-        { $set: updatedCharacter },
-        { new: true },
-        (err, docs) => {
-            if (!err) {
-                return res.send(docs)
+    updateItem(item, url) {
+        router.put(url, (req, res) => {
+            if (!ObjectId.isValid(req.params.id)) {
+                return res.status(400).send('ID unknown : ' + req.params)
             }
             
-            return console.log('Update error: ' + docs)
-        }
-    )
-})
-
-router.delete("/:id", (req, res) => {
-    if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).send('ID unknown : ' + req.params)
+            const updatedCharacter = {
+                name: req.body.name,
+            }
+        
+            item.findOneAndUpdate(
+                req.params.id,
+                { $set: updatedCharacter },
+                { new: true },
+                (err, docs) => {
+                    if (!err) {
+                        return res.send(docs)
+                    }
+                    
+                    return console.log('Update error: ' + docs)
+                }
+            )
+        })
     }
 
-    return CharactersModel.findByIdAndRemove(
-        req.params.id,
-        (err, docs) => {
-            if (!err) {
-                res.send(docs);
-            }
-            return console.log("Delete error");
+    deleteItem(item, url) {
+        router.delete(url, (req, res) => {
+        if (!ObjectId.isValid(req.params.id)) {
+            return res.status(400).send('ID unknown : ' + req.params)
+        }
+        
+        return item.findByIdAndRemove(
+            req.params.id,
+            (err, docs) => {
+                if (!err) {
+                    res.send(docs);
+                }
+                return console.log("Delete error");
+            })
         })
-    })
-    
+    }
+}
+
+const characterController = new CharacterController
+characterController.getItem(CharactersModel, '/')
+characterController.createItem(CharactersModel, '/')
+characterController.updateItem(CharactersModel, '/:id')
+characterController.deleteItem(CharactersModel, '/:id')
 
 module.exports = router;

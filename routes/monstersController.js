@@ -4,13 +4,26 @@ const router = express.Router();
 
 const { MonstersModel } = require('../models/MonstersModel')
 
-router.get('/', (req, res) => {
-    MonstersModel.find((err, docs) => {
-        if (!err) {
-            return res.send(docs)
-        }
-        return console.log('Error to get data ' + err)
-    })
-}) 
+class MonstersController {
+    constructor(item, url) {
+        this.item = item,
+        this.url = url
+    }
+
+    getItem = (item, url) =>  {
+        router.get(url, (req, res) => {
+            item.find((err, docs) => {
+                if (!err) {
+                    return res.send(docs)
+                }
+                return console.log('Error to get data ' + err)
+            })
+        }) 
+    
+    }
+}
+
+const monsterController = new MonstersController
+monsterController.getItem(MonstersModel, '/')
 
 module.exports = router;
