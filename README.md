@@ -14,3 +14,4 @@
 - multer
 - mongoose-unique-validator
 - joi
+- bcrypt
