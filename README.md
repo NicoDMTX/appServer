@@ -12,3 +12,5 @@
 - bodyParser
 - cors
 - multer
+- mongoose-unique-validator
+- joi
