@@ -1,5 +1,7 @@
 require("dotenv").config();
 require('./models/dbConfig');
+var fs = require('fs');
+var path = require('path');
 
 const bodyParser = require("body-parser");
 const express = require('express')
@@ -17,3 +19,39 @@ app.use('/characters', charactersRoutes);
 app.listen(5000, () => {
     console.log('Server launched at port : ' + PORT);
 })
+
+
+
+// const multer = require('multer');
+
+// const { CharactersModel } = require('./models/charactersModel')
+
+// const Storage = multer.diskStorage({
+//     destination: 'images',
+//     filename:(req, file, callback) => {
+//         callback(null, file.originalname);
+//     }
+// })
+
+// const upload = multer({
+//     storage:Storage
+// }).single('testImage')
+
+// app.post('/upload', (req, res) => {
+//     upload(req,res, (err) => {
+//         if(err) {
+//             console.log(err);
+//         } else {
+//             const charactersModel = new CharactersModel({
+//                 level: 1,
+//                 life: 30,
+//                 job: 'Barbare',
+//                 image: {
+//                     data: req.file.filename,
+//                     contentType: 'image/png'
+//                 }
+//             })
+//             charactersModel.save()
+//         }
+//     })
+// })

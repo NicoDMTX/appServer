@@ -11,3 +11,4 @@
 - dotenv
 - bodyParser
 - cors
+- multer
