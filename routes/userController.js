@@ -16,45 +16,42 @@ class User {
                 if (!err) {
                     return res.send(docs)
                 }
+                
                 return console.log('Error to get data ' + err)
             })
         }) 
     }
 
     RegisterUser(item, url) {
-        router.post(url, (req, res) => {
+        router.post(url, async (req, res) => {
             const newUser = new item({
                 firstName: req.body.firstName,
                 password: req.body.password,
             })
 
+            const salt = await bcrypt.genSalt(10)
+            newUser.password = await bcrypt.hash(newUser.password, salt)
+
             // check joi conditions
-            const {error} = userValidation(newUser);
+            const userRules = userValidation(newUser);
+            console.log(userRules)
 
-            if (error) {
-                return res.status(401).json(error.details[0]);
-            }
-
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    delete newUser.password
-                    console.log(salt)
-                    newUser.password = salt;
+            if (userRules) {
+                newUser.save((err, docs) => {
+                    if (!err) {
+                        return res.send(docs);
+                    }
+                    return console.log('Error creating data :' + err)
                 })
-            })
-
-            newUser.save((err, docs) => {
-                if (!err) {
-                    return res.send(docs);
-                }
-
-                return console.log('Error creating data :' + err)
-            })
+            }  else {
+                return res.status(401).json(userRules.error.details[0]);
+            }
         })
     }
 }
 
 const userBuilder = new User;
 userBuilder.RegisterUser(UserModel, '/');
+userBuilder.getItem(UserModel, '/');
 
 module.exports = router;
