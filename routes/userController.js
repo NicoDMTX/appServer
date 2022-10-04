@@ -24,9 +24,14 @@ class User {
     RegisterUser(item, url) {
         router.post(url, async (req, res) => {
             const { email, password } = req.body
+            const salt = await bcrypt.genSalt(10)
+            console.log(salt)
 
             try {
-                const newUser = await new item({ email, password })
+                     
+                
+                const newUser = await new item({ email, password: salt })
+
                 await newUser.save((err, docs) => {
                     if(!err) {
                         console.log('Account created ! ')
