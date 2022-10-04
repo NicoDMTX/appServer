@@ -12,6 +12,6 @@
 - bodyParser
 - cors
 - multer
-- mongoose-unique-validator
 - joi
 - bcrypt
+- validator
