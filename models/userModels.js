@@ -1,14 +1,8 @@
 const mongoose = require('mongoose');
 const { isEmail } = require('validator')
 
-const UserModel = mongoose.model(
-    "user",
+const userSchema = new mongoose.Schema(
     {
-        firstName: {
-            type: String, 
-            required: true,
-            unique: true
-        },
         email: {
             type: String,
             required: [true, 'Please enter an email'],
@@ -20,12 +14,10 @@ const UserModel = mongoose.model(
             type: String, 
             required: [true, 'Please enter a password'],
             minlength: [6, 'Minimum password is length 6 characters'],
-        },
-        date: { 
-            type: Date, 
-            default: Date.now 
         }
     }
 )
 
-module.exports = { UserModel };
+const userModel = mongoose.model('users', userSchema)
+
+module.exports = { userModel };

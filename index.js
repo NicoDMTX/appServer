@@ -18,10 +18,13 @@ app.use('/monsters', monstersRoutes)
 app.use('/characters', charactersRoutes);
 app.use('/register', userRoutes)
 
-app.listen(5000, () => {
-    console.log('Server launched at port : ' + PORT);
-})
+const initApp =  async () => {
+    app.listen(5000, () => {
+        console.log('Server launched at port : ' + PORT);
+    });
+}
 
+initApp();
 
 
 // const multer = require('multer');

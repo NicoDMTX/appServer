@@ -1,5 +1,5 @@
 const express = require('express');
-const { UserModel } = require('../models/userModels');
+const { userModel } = require('../models/userModels');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
@@ -23,20 +23,20 @@ class User {
 
     RegisterUser(item, url) {
         router.post(url, async (req, res) => {
-            const { firstName, email, password } = req.body
+            const { email, password } = req.body
 
             try {
-                const newUser = await new item({ firstName, email, password})
-                
+                const newUser = await new item({ email, password })
                 await newUser.save((err, docs) => {
                     if(!err) {
-                        res.json(newUser)
+                        console.log('Account created ! ')
                         return res.send(docs)
                     } 
                     return console.log(err)
                 })
             } catch(e) {
-                return console.log(e)
+                console.log(e)
+                res.status(400).send('error, user not created');
             }
 
         })
@@ -44,7 +44,7 @@ class User {
 }
 
 const userBuilder = new User;
-userBuilder.RegisterUser(UserModel, '/');
-userBuilder.getItem(UserModel, '/');
+userBuilder.RegisterUser(userModel, '/');
+userBuilder.getItem(userModel, '/');
 
 module.exports = router;
