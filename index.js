@@ -16,7 +16,7 @@ app.use(express.json())
 
 app.use('/monsters', monstersRoutes)
 app.use('/characters', charactersRoutes);
-app.use('/register', userRoutes)
+app.use('/user', userRoutes)
 
 const initApp =  async () => {
     app.listen(5000, () => {

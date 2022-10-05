@@ -15,3 +15,4 @@
 - joi
 - bcrypt
 - validator
+- jsonwebtoken
