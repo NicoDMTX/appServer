@@ -76,8 +76,7 @@ class User {
 }
 
 const userBuilder = new User;
-userBuilder.registerUser(userModel, '/register');
-userBuilder.loginUser('/login');
+userBuilder.registerUser(userModel, '/register');;
 userBuilder.getItem(userModel, '/');
 
 module.exports = router;
